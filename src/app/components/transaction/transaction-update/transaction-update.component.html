@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Editar transação</h1>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Escolha a data</mat-label>
+    <input matInput [matDatepicker]="dayTradeDatepicker" name="dayTradeDay"
+        [(ngModel)]="dayTradeTransaction.date">
+    <mat-datepicker-toggle matSuffix [for]="dayTradeDatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #dayTradeDatepicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Papel</mat-label>
+    <mat-select [(ngModel)]= "dayTradeTransaction.stockSymbol" name="dayTradeSymbol"> 
+        <mat-option *ngFor="let s of stocks" [value]="s.symbol">
+            {{s.symbol}}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Quantidade" type="number"
+        [(ngModel)]="dayTradeTransaction.amount" name="dayTradeAmount">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Preço de compra"  type="number"
+        [(ngModel)]="dayTradeTransaction.buyPrice" name="buyPrice">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Preço de venda"  type="number"
+        [(ngModel)]="dayTradeTransaction.sellPrice" name="sellPrice">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Corretagem" type="number" 
+        [(ngModel)]="dayTradeTransaction.brokerageFee" name="daTradeBrokerageFee">
+  </mat-form-field>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="dayTradeTransaction" cdkFocusInitial>Ok</button>
+</div>

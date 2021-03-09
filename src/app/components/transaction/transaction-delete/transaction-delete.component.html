@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Excluir transação</h1>
+<mat-dialog-content>
+    <mat-form-field>
+        <input matInput placeholder="Data" type="text" disabled
+        value="{{nt.date | date: 'dd/MM/yyyy'}}">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Papel" type="text" disabled
+            value="{{nt.stock.id}}">
+    </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Quantidade" type="text" disabled
+        value="{{nt.amount}}">
+  </mat-form-field>
+  <mat-form-field *ngIf="nt.type == 'C'">
+    <input matInput placeholder="Preço de compra"  type="text" disabled
+        value="{{nt.price | currency: 'BRL'}}">
+  </mat-form-field>
+  <mat-form-field *ngIf="nt.type == 'V'">
+    <input matInput placeholder="Preço de venda"  type="text" disabled
+        value="{{nt.price | currency: 'BRL'}}">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Corretagem" type="text" disabled
+        value="{{nt.brokerageFee | currency: 'BRL'}}">
+  </mat-form-field>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
+  <button mat-button [mat-dialog-close]="nt" color="warn">Excluir</button>
+</div>

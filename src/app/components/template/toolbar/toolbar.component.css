@@ -1,0 +1,7 @@
+ul {
+    list-style: none; /*to hide ul/li markers/dots*/
+}
+
+.button-outlined {
+    border: 1px solid white !important;
+}

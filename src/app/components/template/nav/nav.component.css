@@ -1,0 +1,40 @@
+.sidenav {
+    /* background-color: #3F51B5; */
+    width: 200px;
+}
+
+.sidenav a {
+    /* color: #FFF; */
+}
+
+.sidenav i {
+    padding-right: 10px;
+}
+
+.content {
+    padding: 16px;
+    margin-top: 60px;
+    background-color: #FFF;
+}
+
+.nav-list-icon{
+    margin: 0 12px 0 12px;
+}
+
+.toolbar-title{
+    margin: 0 12px 0 12px;
+}
+
+app-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 998;
+}
+
+.list-item-active {
+    font-weight: 600;
+    color: #3f51b5;;
+    background: rgba(0, 0, 0, 0.04);
+  }

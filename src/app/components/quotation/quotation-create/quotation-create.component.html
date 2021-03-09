@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Adicionar favorita</h1>
+<mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Papel</mat-label>
+        <mat-select [(ngModel)]="stock" name="stock"> 
+            <mat-option *ngFor="let s of stocks" [value]="s">
+                {{s.id}} - {{s.company}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+<div mat-dialog-action>
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
+    <button mat-stroked-button [mat-dialog-close]="stock" color="primary" >Adicionar</button>
+</div>

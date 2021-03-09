@@ -1,0 +1,85 @@
+<mat-card class="mat-elevation-z4">
+    <mat-card-title>Nova Transação</mat-card-title>
+    <form>
+        <mat-form-field>
+            <mat-label>Tipo da transação</mat-label>
+            <mat-select [(ngModel)]="type" name=type>
+                <mat-option *ngFor="let t of types" [value]="t">
+                    {{t.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <form id="dayTradeForm" *ngIf="type.id == 'D'">
+            <mat-form-field>
+                <mat-label>Data</mat-label>
+                <input matInput #dayTradeInput readonly [matDatepicker]="dayTradeDatepicker" name="dayTradeDay" (focus)="dayTradeDatepicker.open()"
+                    [(ngModel)]="dayTradeTransaction.date">
+                <mat-datepicker-toggle matSuffix [for]="dayTradeDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #dayTradeDatepicker (closed)="dayTradeInput.blur()"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Papel</mat-label>
+                <mat-select [(ngModel)]= "dayTradeTransaction.stockSymbol" name="dayTradeSymbol"> 
+                    <mat-option *ngFor="let s of stocks" [value]="s.symbol">
+                        {{s.symbol}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Quantidade" type="number"
+                    [(ngModel)]="dayTradeTransaction.amount" name="dayTradeAmount">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Preço de compra"  type="number"
+                    [(ngModel)]="dayTradeTransaction.buyPrice" name="buyPrice">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Preço de venda"  type="number"
+                    [(ngModel)]="dayTradeTransaction.sellPrice" name="sellPrice">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Corretagem" type="number" 
+                    [(ngModel)]="dayTradeTransaction.brokerageFee" name="daTradeBrokerageFee">
+            </mat-form-field>
+        </form>
+        <form id="normalForm" *ngIf="type.id == 'C' || type.id == 'V'">
+            <mat-form-field>
+                <mat-label>Data</mat-label>
+                <input matInput #normalInput readonly [matDatepicker]="normalDatepicker" name="normalDate" (focus)="normalDatepicker.open()"
+                    [(ngModel)]="normalTransaction.date">
+                <mat-datepicker-toggle matSuffix [for]="normalDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #normalDatepicker (closed)="normalInput.blur()"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Papel</mat-label>
+                <mat-select [(ngModel)]= "normalTransaction.stock" name="normalStock"> 
+                    <mat-option *ngFor="let s of stocks" [value]="s">
+                        {{s.id}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Quantidade" type="number"
+                    [(ngModel)]="normalTransaction.amount" name="normalAmount">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Preço"  type="number"
+                    [(ngModel)]="normalTransaction.price" name="normalPrice">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Corretagem" type="number" 
+                    [(ngModel)]="normalTransaction.brokerageFee" name="normalBrokerageFee">
+            </mat-form-field>
+        </form>
+        
+        
+        
+        
+    </form>
+    <button mat-raised-button (click)="createTransaction()" color="primary">
+        Salvar
+    </button>
+    <button mat-raised-button (click)="cancel()">
+        Cancelar
+    </button>
+</mat-card>

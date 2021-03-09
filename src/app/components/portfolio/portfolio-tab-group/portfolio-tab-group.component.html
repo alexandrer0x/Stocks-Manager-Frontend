@@ -1,0 +1,13 @@
+<mat-tab-group>
+    <mat-tab *ngFor="let broker of brokers" label="{{broker.name}}">
+        <ng-template matTabContent>
+            <app-portfolio-read [broker]="broker"></app-portfolio-read>
+        </ng-template>
+    </mat-tab>
+    <mat-tab *ngIf="isLoaded">
+        <ng-template matTabLabel>Consolidado</ng-template>
+        <ng-template matTabContent>
+            <app-portfolio-read [broker]="null"></app-portfolio-read>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

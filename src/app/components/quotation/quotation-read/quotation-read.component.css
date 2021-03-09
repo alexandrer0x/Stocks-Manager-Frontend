@@ -1,0 +1,169 @@
+/* .mat-table {
+    font-family: sourceCodePro;
+} */
+
+.mat-header-cell{
+    color: rgb(0, 0, 0);
+}
+
+.mat-cell{
+    color: rgb(102, 101, 101);
+}
+
+.stockId{
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.quote{
+    font-weight: 500;
+}
+
+.stockCompany{
+    font-size: 0.65rem;
+}
+
+.negative{
+    
+    color: rgb(255, 0, 0);
+}
+
+.positive {
+    color: rgb(0, 137, 0);
+}
+
+.neutral {
+    color: rgb(102, 101, 101);
+    text-align: center;
+}
+
+.add-button {
+    font-size: 3rem;
+}
+
+.gray { background-color: #f5f5f5 }
+
+table{
+    width: 100%;
+}
+
+.hide-column {
+    display: none;
+}
+  
+.mat-column-icon {
+    flex: 0 1 10%;
+    
+    padding-left: 0.5rem;
+    padding-right: 0.1rem;
+}
+
+.mat-column-symbol {
+    flex: 0 1 40%;
+
+    justify-content: start;
+    text-align: start;
+}
+
+.mat-column-quote {
+    flex: 0 1 20%;
+    justify-content: flex-end;
+    text-align: end;
+
+}
+
+
+.mat-column-changePercent {
+    flex: 0 1 20%;
+    justify-content: flex-end;
+    text-align: end;
+}
+
+/* .mat-column-previousClosePrice {
+    flex: 0 1 20%;
+    justify-content: flex-end;
+    text-align: end;
+}
+
+.mat-column-lastDate {
+    flex: 0 1 20%;
+    justify-content: flex-end;
+    text-align: end;
+}
+
+.mat-column-lastTime {
+    flex: 0 1 20%;
+    justify-content: flex-end;
+    text-align: end;
+} */
+
+.mat-column-buttons {
+    flex: 0 1 10%;
+    margin-left: 1rem;
+    margin-right: 0px;
+    padding-right: 0px;
+    justify-content: flex-end;
+    text-align: end;
+}
+
+@media only screen and (min-width: 900px) {
+    .hide-column {
+        display: flex;
+    }
+
+    table{
+        width: 100%;
+    }
+    
+
+    .mat-column-icon {
+        flex: 0 1 2%;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
+    .mat-column-symbol {
+        flex: 0 1 19%;
+        justify-content: flex-start;
+        text-align: start;
+    }
+    
+    .mat-column-quote {
+        flex: 0 1 15%;
+        justify-content: flex-end;
+        text-align: end;
+    }
+    
+    .mat-column-changePercent {
+        flex: 0 1 15%;
+        justify-content: flex-end;
+        text-align: end;
+    }
+    
+    .mat-column-previousClosePrice {
+        flex: 0 1 15%;
+        justify-content: flex-end;
+        text-align: end;
+    }
+    
+    .mat-column-lastDate {
+        flex: 0 1 15%;
+        justify-content: flex-end;
+        text-align: end;
+    }
+    
+    .mat-column-lastTime {
+        flex: 0 1 15%;
+        justify-content: flex-end;
+        text-align: end;
+    }
+    
+    .mat-column-buttons {
+        flex: 0 1 4%;
+        margin-left: 1rem;
+        margin-right: 0px;
+        padding-right: 0px;
+        justify-content: flex-end;
+        text-align: end;
+    }
+}

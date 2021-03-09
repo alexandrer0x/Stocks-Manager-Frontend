@@ -1,0 +1,23 @@
+mat-card {
+    margin-bottom: 20px;
+}
+
+mat-card-subtitle {
+    padding-top: 20px;
+}
+
+.gray { background-color: #f5f5f5 }
+
+.negative{
+    
+    color: rgb(255, 0, 0);
+}
+
+.positive {
+    color: rgb(0, 137, 0);
+}
+
+.neutral {
+    color: rgb(102, 101, 101);
+    text-align: center;
+}

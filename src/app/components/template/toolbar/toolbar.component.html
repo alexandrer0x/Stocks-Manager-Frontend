@@ -1,0 +1,47 @@
+<mat-toolbar color="primary" class="app-toolbar">
+    <mat-toolbar-row>
+        <button *ngIf="isLoggedIn()" mat-icon-button (click)="toggleSidenav.emit()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <!-- <span>{{'APP_TOOLBAR_TITLE' | translate}}</span> -->
+        <span>{{appTitle}}</span>
+        
+        <div fxFlex fxLayout fxLayoutAlign="flex-end">
+            <ul fxLayout fxLayoutGap="20px">
+                <!-- <li>
+                    <button mat-icon-button>
+                        <mat-icon>settings</mat-icon>
+                    </button>
+                </li>
+
+                <li fxHide.xs>
+                    <button mat-icon-button>
+                        <mat-icon>help_outline</mat-icon>
+                    </button>
+                </li> -->
+                
+                <li *ngIf="isLoggedIn()">
+                    <button mat-icon-button [matMenuTriggerFor]="authLoggedInMenu">
+                        <mat-icon>person_outline</mat-icon>
+                    </button>
+                    <mat-menu  #authLoggedInMenu="matMenu">
+                        <button mat-menu-item (click)="logOut()">
+                            <mat-icon>exit_to_app</mat-icon>
+                            <span>Sair</span>
+                        </button>
+                    </mat-menu>
+                </li>
+                <li *ngIf="!isLoggedIn()">
+                    <button mat-button class="button-outlined" (click)="navigateToLogIn()">
+                        Entrar
+                    </button>
+                </li>
+                <li *ngIf="!isLoggedIn()">
+                    <button mat-button class="button-outlined" (click)="navigateToRegister()">
+                        Cadastrar
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

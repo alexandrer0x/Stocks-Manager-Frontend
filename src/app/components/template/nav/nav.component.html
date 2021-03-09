@@ -1,0 +1,74 @@
+<app-toolbar (toggleSidenav)="sidenav.toggle()"></app-toolbar>
+
+<mat-sidenav-container class="container">
+    <mat-sidenav #sidenav class="sidenav" mode="over" fixedInViewport="true">
+        <mat-toolbar>
+            <mat-toolbar-row>
+              <h2 class="toolbar-title"> {{appTitle}} </h2>
+            </mat-toolbar-row>
+          </mat-toolbar>
+
+        <mat-nav-list class="nav-list">
+            <a mat-list-item routerLink="/" style="height: 0;"></a>
+            <a *ngFor="let item of routes" 
+                mat-list-item
+                (click)=sidenav.close()
+                [routerLink]=item.route
+                routerLinkActive="list-item-active">
+                <!-- <i class="material-icons">
+                    {{item.icon}}
+                </i> -->
+                <i [ngClass]="item.fa"></i>
+                {{item.title}}
+            </a>
+            <!-- <a mat-list-item routerLink="/home" >
+                <i class="material-icons">
+                    home
+                </i>
+                <i class="fas fa-home fa-lg"></i>
+                Início
+            </a>
+            <a mat-list-item routerLink="/transaction" >
+                <i class="material-icons">
+                    gavel
+                </i>
+                <i class="fas fa-exchange-alt fa-lg"></i>
+                Transações
+            </a>
+            <a mat-list-item routerLink="/portfolio" >
+                <i class="material-icons">
+                    account_balance_wallet
+                </i>
+                <i class="fas fa-wallet fa-lg"></i>
+                
+                Carteira
+            </a>
+            <a mat-list-item routerLink="/composition" >
+                <i class="material-icons">
+                    pie_chart
+                </i>
+                <i class="fas fa-chart-pie fa-lg"></i>
+                Composição
+            </a>
+            <a mat-list-item routerLink="/quotations" >
+                <i class="material-icons">
+                    trending_up
+                </i>
+                <i class="fas fa-chart-line fa-lg"></i>
+                Cotações
+            </a>
+            <a mat-list-item routerLink="/realTime" >
+                <i class="material-icons">
+                    access_time
+                </i>
+                <i class="fas fa-clock fa-lg"></i>
+                Tempo real
+            </a> -->
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+        <app-toolbar  (toggleSidenav)="sidenav.toggle()"></app-toolbar>
+
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

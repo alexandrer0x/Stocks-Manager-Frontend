@@ -1,0 +1,67 @@
+
+
+<mat-card class="mat-elevation-z4">
+    <mat-card-title>
+        Ações favoritas
+        <span>
+            <button mat-icon-button (click)="openAddFavoriteDialog()" color="primary">
+                <mat-icon class="add-button">
+                    add_circle
+                </mat-icon>
+            </button>
+        </span>
+    </mat-card-title>
+    <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="icon">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let stock">
+                <i [ngClass]=getStatusIcon(stock)></i>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="symbol">
+            <mat-header-cell *matHeaderCellDef>Papel</mat-header-cell>
+            <mat-cell *matCellDef="let stock">
+                <div>
+                    <div class="stockId">
+                        {{stock.id}}
+                    </div>
+                    <div class="stockCompany">
+                        {{stock.company | uppercase}}
+                    </div>
+                </div>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="quote">
+            <mat-header-cell *matHeaderCellDef>Cotação</mat-header-cell>
+            <mat-cell *matCellDef="let stock" class="quote">{{stock.price | currency : 'USD':' '}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="changePercent">
+            <mat-header-cell *matHeaderCellDef>Var. %</mat-header-cell>
+            <mat-cell [ngClass]="setMyClasses(stock)" *matCellDef="let stock">{{stock.changePercent | number: '1.2-2'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="previousClosePrice">
+            <mat-header-cell *matHeaderCellDef class="hide-column">Fechamento<br>Anterior</mat-header-cell>
+            <mat-cell *matCellDef="let stock" class="hide-column">{{stock.previousClosePrice | currency : 'USD':' '}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="lastDate" >
+            <mat-header-cell *matHeaderCellDef class="hide-column">Dt. Atualização</mat-header-cell>
+            <mat-cell *matCellDef="let stock" class="hide-column">{{stock.lastUpdated | date:'dd/MM/yyyy'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="lastTime">
+            <mat-header-cell *matHeaderCellDef class="hide-column">Hr. Atualização</mat-header-cell>
+            <mat-cell *matCellDef="let stock" class="hide-column">{{stock.lastUpdated | date: 'HH:mm'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="buttons">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let stock">
+                <button mat-icon-button (click)="deleteFavoriteStock(stock)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; let even = even; columns: columnsToDisplay" [ngClass]="{gray: even}"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="20" showFirstLastButtons></mat-paginator>
+</mat-card>
