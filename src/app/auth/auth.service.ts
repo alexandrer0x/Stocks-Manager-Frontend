@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { UserAuth } from '../components/user/userAuth.model';
 import { STORAGE_KEYS } from '../config/storage_keys.config';
+import { StorageService } from '../_services/storage.service';
 
 @Injectable({
     providedIn: 'root'
@@ -17,32 +18,9 @@ export class AuthService {
     jwtHelper = new JwtHelperService()
     decoededToken : any
 
-    constructor(private http : HttpClient) { }
+    constructor(private http : HttpClient, private storage : StorageService) { }
 
-    private getUserData(userAuth : UserAuth) : Observable<User> {
-        let username = localStorage.getItem(STORAGE_KEYS.user)
-        const token = localStorage.getItem(STORAGE_KEYS.token)
-        return this.http.post<User>(`http://localhost:8080/login`, userAuth)
-    }
-
-    private authenticate(userAuth : UserAuth) {
-        return this.http.post<UserAuth>(`http://localhost:8080/login`, userAuth, {observe: 'response'}).pipe(
-            map((response: any) : Observable<UserAuth> => {
-                let header = response.headers.get('authorization')
-                let username : any
-
-                if(header != null) {
-                    const token = header.substr(7)
-                    username = userAuth.username
-
-                    localStorage.setItem(STORAGE_KEYS.token, token)
-                    localStorage.setItem(STORAGE_KEYS.username, username)
-                }
-
-                return this.http.get<UserAuth>(`${this.baseUrl}/users/${username}`)
-            })
-        )
-    }
+    
 
     logIn(userAuth : UserAuth) : Observable<UserAuth> {
         return this.http.post<UserAuth>(`http://localhost:8080/login`, userAuth, {observe: 'response'})
@@ -54,15 +32,15 @@ export class AuthService {
                     const token = header.substr(7)
                     username = userAuth.username
 
-                    localStorage.setItem(STORAGE_KEYS.token, token)
-                    localStorage.setItem(STORAGE_KEYS.username, username)
+                    this.storage.setItem(STORAGE_KEYS.token, token)
+                    this.storage.setItem(STORAGE_KEYS.username, username)
 
                     let params = new HttpParams().set('value', username)
                 
                     return this.http.get<UserAuth>(`${this.baseUrl}/email`, {params}).pipe(
                         map((response2 : any) : UserAuth => {
                             let user : User = response2
-                            localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user))
+                            this.storage.setItem(STORAGE_KEYS.user, JSON.stringify(user))
                             return user
                         })
                     )
@@ -77,8 +55,8 @@ export class AuthService {
                 const token : string = response.token
 
                 if(user) {
-                    localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user))
-                    localStorage.setItem(STORAGE_KEYS.token, token)
+                    this.storage.setItem(STORAGE_KEYS.user, JSON.stringify(user))
+                    this.storage.setItem(STORAGE_KEYS.token, token)
                     this.decoededToken = this.jwtHelper.decodeToken(token)
                     console.log(this.decoededToken)
                 }
@@ -90,8 +68,8 @@ export class AuthService {
     }
 
     logOut() : void {
-        localStorage.removeItem(STORAGE_KEYS.token)
-        localStorage.removeItem(STORAGE_KEYS.user)
+        this.storage.removeItem(STORAGE_KEYS.token)
+        this.storage.removeItem(STORAGE_KEYS.user)
     }
 
     isLoggedIn() : boolean {
@@ -109,13 +87,13 @@ export class AuthService {
     }
 
     getUser() : User {
-        const user = localStorage.getItem(STORAGE_KEYS.user)
+        const user = this.storage.getItem(STORAGE_KEYS.user)
 
-        if(user) { return JSON.parse(localStorage.getItem(STORAGE_KEYS.user)) }
+        if(user) { return JSON.parse(this.storage.getItem(STORAGE_KEYS.user)) }
         else { return null } 
     }
 
     getToken() : string {
-        return localStorage.getItem(STORAGE_KEYS.token)
+        return this.storage.getItem(STORAGE_KEYS.token)
     }
 }

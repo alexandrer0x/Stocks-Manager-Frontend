@@ -1,7 +1,6 @@
 import { MyToastService } from './../../../_services/my-toast.service';
 import { AuthService } from '../../../auth/auth.service';
 import { UserAuth } from './../userAuth.model';
-import { User } from './../user.model';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -31,14 +30,25 @@ export class LogInComponent implements OnInit {
         if(this.authService.isLoggedIn){
           this.router.navigate(['/home'])
         }else{
-          this.toast.toastError([{
-            code: 'UnexpectedError',
-            description: 'Erro inesperado'
-          }])
+          this.toast.toastError({
+            code: '403-1',
+            message: 'Credenciais inválidas.'
+          })
         }
       },
       error => {
-        this.toast.toastError(error)
+        if(error != null && error.status == 403) {
+          this.toast.toastError({
+            code: '403-1',
+            message: 'Credenciais inválidas.'
+          })
+        }else {
+          this.toast.toastError({
+            code: '500-1',
+            message: 'Sistema indisponível no momento.'
+          })
+        }
+        
       })
   }
 

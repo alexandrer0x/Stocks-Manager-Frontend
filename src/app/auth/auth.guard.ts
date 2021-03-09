@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate/* , CanActivateChild, CanDeactivat
   canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if(this.authService.isLoggedIn()){ return true }
     else {
-      this.toast.toastError("Erro")
+      this.toast.toastError({})
       this.authService.logOut()
       this.router.navigate(['/user/login'])
       return false
