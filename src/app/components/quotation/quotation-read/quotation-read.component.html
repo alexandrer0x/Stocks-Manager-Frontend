@@ -18,12 +18,12 @@
                 <i [ngClass]=getStatusIcon(stock)></i>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="symbol">
+        <ng-container matColumnDef="ticker">
             <mat-header-cell *matHeaderCellDef>Papel</mat-header-cell>
             <mat-cell *matCellDef="let stock">
                 <div>
-                    <div class="stockId">
-                        {{stock.id}}
+                    <div class="stockTicker">
+                        {{stock.ticker}}
                     </div>
                     <div class="stockCompany">
                         {{stock.company | uppercase}}
@@ -65,3 +65,5 @@
     </mat-table>
     <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="20" showFirstLastButtons></mat-paginator>
 </mat-card>
+
+{{teste}}

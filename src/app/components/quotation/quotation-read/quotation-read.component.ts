@@ -22,8 +22,9 @@ export class QuotationReadComponent implements OnInit {
     private quoteService : QuoteService,
     private dialog : MatDialog) { }
 
+  teste : any 
   stocks : Stock[]
-  columnsToDisplay = ['icon', 'symbol', 'quote', 'changePercent', 'previousClosePrice', 'lastTime', 'lastDate', 'buttons']
+  columnsToDisplay = ['icon', 'ticker', 'quote', 'changePercent', 'previousClosePrice', 'lastTime', 'lastDate', 'buttons']
 
   ngOnInit(): void {
     this.stocks = []
@@ -32,6 +33,7 @@ export class QuotationReadComponent implements OnInit {
 
   loadFavoriteStocks(){
     this.quoteService.getFavoriteStocks().subscribe((stocks : Stock[]) => {
+      this.teste = stocks
       this.dataSource = new MatTableDataSource(stocks)
       this.dataSource.paginator = this.paginator
       this.getQuote(stocks);
@@ -40,8 +42,8 @@ export class QuotationReadComponent implements OnInit {
 
   getQuote(stocks : Stock[]){
     for(let s of stocks){
-      this.stockService.getQuote(s.id).subscribe((stock : Stock) => {
-        let aux : Stock = this.dataSource.data.find(x => x.id == stock.id)
+      this.stockService.getQuote(s.ticker).subscribe((stock : Stock) => {
+        let aux : Stock = this.dataSource.data.find(x => x.ticker == stock.ticker)
         
         aux.changePercent = stock.changePercent
         aux.lastUpdated = stock.lastUpdated
@@ -70,7 +72,7 @@ export class QuotationReadComponent implements OnInit {
   }
 
   deleteFavoriteStock(stock : Stock) : void{
-    this.quoteService.deleteFavoriteStock(stock.id).subscribe(
+    this.quoteService.deleteFavoriteStock(stock.ticker).subscribe(
       () => {
         this.loadFavoriteStocks()
       },

@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Stock } from './stock.model';
 
@@ -9,7 +9,7 @@ import { Stock } from './stock.model';
 })
 export class StockService {
 
-  private baseUrl : string = environment.baseUrl + 'stock'
+  private baseUrl : string = environment.baseUrl + 'stocks'
 
   constructor(private http : HttpClient) { }
 
@@ -21,7 +21,8 @@ export class StockService {
     return this.http.get<Stock>(this.baseUrl + `/${stockId}`);
   }
 
-  getQuote(stockId : string) : Observable<Stock> {
-    return this.http.get<Stock>(this.baseUrl + `/quote/${stockId}`);
+  getQuote(stockTicker : string) : Observable<Stock> {
+    let params : HttpParams = new HttpParams().set('ticker', stockTicker)
+    return this.http.get<Stock>(this.baseUrl + `/quote`, {params});
   }
 }

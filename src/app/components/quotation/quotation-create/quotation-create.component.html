@@ -4,7 +4,7 @@
         <mat-label>Papel</mat-label>
         <mat-select [(ngModel)]="stock" name="stock"> 
             <mat-option *ngFor="let s of stocks" [value]="s">
-                {{s.id}} - {{s.company}}
+                {{s.ticker}} - {{s.company}}
             </mat-option>
         </mat-select>
     </mat-form-field>

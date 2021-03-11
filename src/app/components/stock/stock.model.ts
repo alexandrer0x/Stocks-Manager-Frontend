@@ -1,5 +1,5 @@
 export interface Stock {
-    id : string,
+    ticker : string,
     company : string,
     price? : number,
     previousClosePrice? : number,

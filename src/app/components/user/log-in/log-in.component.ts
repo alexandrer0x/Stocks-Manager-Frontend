@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class LogInComponent implements OnInit {
 
   userAuth : UserAuth = {
-    username: '',
+    email: '',
     password: ''
   }
 

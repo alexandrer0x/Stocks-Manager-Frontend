@@ -16,12 +16,12 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup
 
   user : User = {
-    username: '',
+    email: '',
     password: '',
     firstName: '',
     lastName: ''
   } /* = {
-    username: 'alexandrer0x@hotmail.com',
+    email: 'alexandrer0x@hotmail.com',
     password: 'alex',
     firstName: 'Alexandre',
     lastName: 'Vieira'
@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
 
   validate() {
     this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required]

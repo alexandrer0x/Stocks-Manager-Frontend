@@ -26,16 +26,16 @@ export class AuthService {
         return this.http.post<UserAuth>(`http://localhost:8080/login`, userAuth, {observe: 'response'})
             .pipe(mergeMap((response1) : Observable<UserAuth> => {
                 let header = response1.headers.get('authorization')
-                let username : any
+                let email : any
 
                 if(header != null) {
                     const token = header.substr(7)
-                    username = userAuth.username
+                    email = userAuth.email
 
                     this.storage.setItem(STORAGE_KEYS.token, token)
-                    this.storage.setItem(STORAGE_KEYS.username, username)
+                    this.storage.setItem(STORAGE_KEYS.email, email)
 
-                    let params = new HttpParams().set('value', username)
+                    let params = new HttpParams().set('email', email)
                 
                     return this.http.get<UserAuth>(`${this.baseUrl}/email`, {params}).pipe(
                         map((response2 : any) : UserAuth => {
