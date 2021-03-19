@@ -6,5 +6,6 @@ export const STORAGE_KEYS = {
 
 export const PARAM_KEYS = {
     user: 'user',
-    stock: 'stock'
+    stock: 'stock',
+    broker: 'broker'
 }

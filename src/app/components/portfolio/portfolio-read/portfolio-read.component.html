@@ -5,7 +5,7 @@
             <mat-cell *matCellDef="let us">
                 <div>
                     <div class="stockId">
-                        {{us.stock.id}}
+                        {{us.stock.ticker}}
                     </div>
                     <div class="stockCompany">
                         {{us.stock.company | uppercase}}
@@ -16,12 +16,12 @@
         </ng-container>
         <ng-container matColumnDef="position">
             <mat-header-cell *matHeaderCellDef>Qtd</mat-header-cell>
-            <mat-cell *matCellDef="let us">{{us.position}}</mat-cell>
+            <mat-cell *matCellDef="let us">{{us.amount}}</mat-cell>
             <mat-footer-cell *matFooterCellDef></mat-footer-cell>
         </ng-container>
         <ng-container matColumnDef="avgPrice">
             <mat-header-cell *matHeaderCellDef>Preço<br>Médio</mat-header-cell>
-            <mat-cell *matCellDef="let us" class="bold">{{us.avgPrice | currency : 'USD':' ' :'1.4-4'}}</mat-cell>
+            <mat-cell *matCellDef="let us" class="bold">{{us.averageCost | currency : 'USD':' ' :'1.4-4'}}</mat-cell>
             <mat-footer-cell *matFooterCellDef></mat-footer-cell>
         </ng-container>
         <ng-container matColumnDef="positionCost">

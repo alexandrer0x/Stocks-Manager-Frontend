@@ -1,11 +1,12 @@
-import { PortfolioService } from '../../../_services/portfolio.service';
-import { UserStock } from '../userStock.model';
+import { PositionService } from '../../../_services/position.service';
+import { Position } from '../position.model';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Stock } from '../../stock/stock.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { StockService } from '../../stock/stock.service';
 import { Broker } from '../broker.model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-portfolio-read',
@@ -13,7 +14,7 @@ import { Broker } from '../broker.model';
   styleUrls: ['./portfolio-read.component.css']
 })
 export class PortfolioReadComponent implements OnInit {
-  dataSource : MatTableDataSource<UserStock>
+  dataSource : MatTableDataSource<Position>
   @ViewChild('paginator', {read: MatPaginator}) paginator: MatPaginator
 
   @Input() broker : Broker
@@ -26,46 +27,58 @@ export class PortfolioReadComponent implements OnInit {
 
   constructor(
     private stockService : StockService, 
-    private portfolioService : PortfolioService
+    private positionService : PositionService,
+    private authService : AuthService
   ) { }
 
   ngOnInit(): void {
     if(this.broker && this.broker.id){
-      this.portfolioService.getPortfolioByBroker(this.broker.id).subscribe(
-        (userStocks : UserStock[]) =>{
-          this.dataSource = new MatTableDataSource(userStocks)
+      this.positionService.getPortfolioByBroker(this.authService.getUser(), this.broker.id).subscribe(
+        (positions : Position[]) =>{
+          positions.forEach(element => {
+            element.positionCost = element.amount * element.averageCost
+          });
+
+
+          this.dataSource = new MatTableDataSource(positions)
           this.dataSource.paginator = this.paginator
-          this.getQuote(userStocks);
+          this.getQuote(positions);
         })
     }else {
-      this.portfolioService.getPortfolio().subscribe(
-        (userStocks : UserStock[]) =>{
-          this.dataSource = new MatTableDataSource(userStocks)
+      this.positionService.getPortfolio(this.authService.getUser()).subscribe(
+        (positions : Position[]) =>{
+
+          positions.forEach(element => {
+              element.positionCost = element.amount * element.averageCost
+          });
+
+
+          this.dataSource = new MatTableDataSource(positions)
           this.dataSource.paginator = this.paginator
-          this.getQuote(userStocks);
+          this.getQuote(positions);
         })
       
     }
   }
 
-  getQuote(userStocks : UserStock[]) : void {
+  getQuote(userStocks : Position[]) : void {
     for(let us of userStocks){
       this.stockService.getQuote(us.stock.ticker).subscribe((stock : Stock) => {
-        let aux : UserStock = this.dataSource.data.find(x => x.stock.ticker == stock.ticker)
+        let aux : Position = this.dataSource.data.find(x => x.stock.ticker == stock.ticker)
         
         aux.stock.changePercent = stock.changePercent
         aux.stock.lastUpdated = stock.lastUpdated
         aux.stock.previousClosePrice = stock.previousClosePrice
         aux.stock.price = stock.price
-        us.positonValue = us.position * us.stock.price
+        us.positonValue = us.amount * us.stock.price
         this.totalPositionCost += us.positionCost
         this.totalPositionValue += us.positonValue
       })
     }
   }
 
-  deleteUserStock(userStock: UserStock) {
-    this.portfolioService.deleteUserStock(userStock.broker.id, userStock.stock.ticker).subscribe(
+  deleteUserStock(userStock: Position) {
+    this.positionService.deleteUserStock(this.authService.getUser(), userStock.broker.id, userStock.stock.ticker).subscribe(
       () => {
         this.dataSource.data = this.dataSource.data.filter(obj => obj !== userStock)
         this.totalPositionCost -= userStock.positionCost
@@ -74,7 +87,7 @@ export class PortfolioReadComponent implements OnInit {
     )
   }
 
-  setMyClasses(userStock : UserStock): string{
+  setMyClasses(userStock : Position): string{
     if(userStock.positionCost > userStock.positonValue)
       return 'negative'
     else if(userStock.positionCost == userStock.positonValue)

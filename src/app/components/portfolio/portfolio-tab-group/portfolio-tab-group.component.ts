@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Observer } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Broker } from '../broker.model';
+import { PositionService } from 'src/app/_services/position.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -15,39 +17,27 @@ export class PortfolioTabGroupComponent implements OnInit {
   isLoaded : boolean = false
   baseUrl : string = environment.apiUrl
 
-  constructor(private HttpClient : HttpClient) { }
+  constructor(private positionService : PositionService, private authService : AuthService) { }
 
   ngOnInit(): void {
     this.getBrokers()
   }
 
   getBrokers() {
-    this.HttpClient.get(`${this.baseUrl}portfolio/brokers`).subscribe((brokers : Broker[]) => {
-      this.brokers = brokers
-      
-      if(this.brokers && brokers.length > 0){
-        this.loadPortfolio(this.brokers[0].id)
-      }
+    this.positionService.getPositionBrokers(this.authService.getUser()).subscribe(
+      (brokers : Broker[]) => {
+        this.brokers = brokers
+        
+        if(this.brokers && brokers.length > 0){
+          this.loadPortfolio(this.brokers[0].id)
+        }
 
-      this.isLoaded = true
-    })
+        this.isLoaded = true
+      }
+    )
   }
 
   loadPortfolio(brokerId : number) {
 
   }
-
-  /* getContent(index : number) {
-    if(!this.tabs[index].requested) {
-      this.HttpClient.get(`http://stockexchange.ddns.net:5000/api/stock/${this.tabs[index].label}`).subscribe(
-        result => {
-          this.tabs[index].content = result
-        },
-        error => {
-          this.tabs[index].content = error
-        })
-    }
-    this.tabs[index].requested = true
-  } */
-
 }

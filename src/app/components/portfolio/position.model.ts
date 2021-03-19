@@ -1,8 +1,8 @@
 import { Broker } from './broker.model';
-import { Stock } from './../stock/stock.model';
-export interface UserStock {
-    position: number,
-    avgPrice: number,
+import { Stock } from '../stock/stock.model';
+export interface Position {
+    amount: number,
+    averageCost: number,
     positionCost: number,
     positonValue: number,
     stock : Stock,
