@@ -13,7 +13,7 @@ import { Broker } from '../broker.model';
 export class PortfolioTabGroupComponent implements OnInit {
   brokers : Broker[]
   isLoaded : boolean = false
-  baseUrl : string = environment.baseUrl
+  baseUrl : string = environment.apiUrl
 
   constructor(private HttpClient : HttpClient) { }
 

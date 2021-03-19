@@ -1,6 +1,6 @@
 import { MyToastService } from './../../../_services/my-toast.service';
 import { AuthService } from '../../../auth/auth.service';
-import { UserAuth } from './../userAuth.model';
+import { LoginCreds } from '../loginCreds.model';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogInComponent implements OnInit {
 
-  userAuth : UserAuth = {
+  loginCreds : LoginCreds = {
     email: '',
     password: ''
   }
@@ -25,7 +25,7 @@ export class LogInComponent implements OnInit {
   }
 
   logIn(){
-    this.authService.logIn(this.userAuth).subscribe(
+    this.authService.logIn(this.loginCreds).subscribe(
       () => {
         if(this.authService.isLoggedIn){
           this.router.navigate(['/home'])

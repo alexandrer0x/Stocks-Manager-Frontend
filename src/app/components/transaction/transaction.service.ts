@@ -11,8 +11,8 @@ import { Observable } from 'rxjs';
 })
 export class TransactionService {
 
-  private normalBaseUrl : string = environment.baseUrl + 'normalTransaction'
-  private dayTradeBaseUrl: string = environment.baseUrl + 'dayTradeTransaction'
+  private normalBaseUrl : string = environment.apiUrl + 'normalTransaction'
+  private dayTradeBaseUrl: string = environment.apiUrl + 'dayTradeTransaction'
 
   constructor(private http: HttpClient) { }
 

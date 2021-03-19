@@ -1,4 +1,3 @@
-import { AuthResponse } from '../components/user/authResponse.model';
 import { environment } from '../../environments/environment';
 import { User } from '../components/user/user.model';
 import { Observable} from 'rxjs';
@@ -6,15 +5,15 @@ import { map, mergeMap } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt'
-import { UserAuth } from '../components/user/userAuth.model';
-import { STORAGE_KEYS } from '../config/storage_keys.config';
+import { LoginCreds } from '../components/user/loginCreds.model';
+import { PARAM_KEYS, STORAGE_KEYS } from '../config/storage_keys.config';
 import { StorageService } from '../_services/storage.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private baseUrl : string = environment.baseUrl + 'users'
+    private baseUrl : string = environment.apiUrl + 'users'
     jwtHelper = new JwtHelperService()
     decoededToken : any
 
@@ -22,23 +21,23 @@ export class AuthService {
 
     
 
-    logIn(userAuth : UserAuth) : Observable<UserAuth> {
-        return this.http.post<UserAuth>(`http://localhost:8080/login`, userAuth, {observe: 'response'})
-            .pipe(mergeMap((response1) : Observable<UserAuth> => {
+    logIn(loginCreds : LoginCreds) : Observable<LoginCreds> {
+        return this.http.post<LoginCreds>(`http://localhost:8080/login`, loginCreds, {observe: 'response'}).pipe(
+            mergeMap((response1) : Observable<LoginCreds> => {
                 let header = response1.headers.get('authorization')
-                let email : any
+                let email : string
 
                 if(header != null) {
                     const token = header.substr(7)
-                    email = userAuth.email
+                    email = loginCreds.email
 
                     this.storage.setItem(STORAGE_KEYS.token, token)
                     this.storage.setItem(STORAGE_KEYS.email, email)
 
-                    let params = new HttpParams().set('email', email)
+                    let params = new HttpParams().set(PARAM_KEYS.user, email)
                 
-                    return this.http.get<UserAuth>(`${this.baseUrl}/email`, {params}).pipe(
-                        map((response2 : any) : UserAuth => {
+                    return this.http.get<LoginCreds>(`${this.baseUrl}/email`, {params}).pipe(
+                        map((response2 : any) : LoginCreds => {
                             let user : User = response2
                             this.storage.setItem(STORAGE_KEYS.user, JSON.stringify(user))
                             return user
@@ -48,23 +47,25 @@ export class AuthService {
             }))
     }
 
-    register(user : User) : Observable<User> {
-        return this.http.post<AuthResponse>(`${this.baseUrl}/register`, user).pipe(
-            map((response: AuthResponse) => {
-                let user : User = response.user
-                const token : string = response.token
+    register(inputUser : User) : Observable<LoginCreds> {
+        return this.http.post<User>(`${this.baseUrl}`, inputUser).pipe(
+            mergeMap((response: User) => {
+                let user : User = response
 
                 if(user) {
                     this.storage.setItem(STORAGE_KEYS.user, JSON.stringify(user))
-                    this.storage.setItem(STORAGE_KEYS.token, token)
-                    this.decoededToken = this.jwtHelper.decodeToken(token)
-                    console.log(this.decoededToken)
+                    //this.storage.setItem(STORAGE_KEYS.token, token)
+                    //this.decoededToken = this.jwtHelper.decodeToken(token)
                 }
                 
-                console.log(response)
-                return response.user
-            })
-        )
+                let loginCreds : LoginCreds = {
+                    email: user.email,
+                    password: inputUser.password
+                }
+                return this.logIn(loginCreds)
+            }))
+
+            
     }
 
     logOut() : void {

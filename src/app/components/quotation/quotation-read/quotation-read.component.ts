@@ -1,4 +1,4 @@
-import { QuoteService } from './quote.service';
+import { FavoriteService } from '../../../_services/favorite.service';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,7 +19,7 @@ export class QuotationReadComponent implements OnInit {
 
   constructor(
     private stockService : StockService, 
-    private quoteService : QuoteService,
+    private favoriteService : FavoriteService,
     private dialog : MatDialog) { }
 
   teste : any 
@@ -32,7 +32,7 @@ export class QuotationReadComponent implements OnInit {
   }
 
   loadFavoriteStocks(){
-    this.quoteService.getFavoriteStocks().subscribe((stocks : Stock[]) => {
+    this.favoriteService.getFavoriteStocks().subscribe((stocks : Stock[]) => {
       this.teste = stocks
       this.dataSource = new MatTableDataSource(stocks)
       this.dataSource.paginator = this.paginator
@@ -72,7 +72,7 @@ export class QuotationReadComponent implements OnInit {
   }
 
   deleteFavoriteStock(stock : Stock) : void{
-    this.quoteService.deleteFavoriteStock(stock.ticker).subscribe(
+    this.favoriteService.deleteFavoriteStock(stock).subscribe(
       () => {
         this.loadFavoriteStocks()
       },
@@ -88,7 +88,7 @@ export class QuotationReadComponent implements OnInit {
 
     diaglogRef.afterClosed().subscribe(
       stock => {
-        this.quoteService.addFavoriteStock(stock).subscribe(()=> {
+        this.favoriteService.addFavoriteStock(stock).subscribe(()=> {
           this.loadFavoriteStocks()
         })
       }

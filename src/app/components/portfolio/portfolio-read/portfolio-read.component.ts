@@ -50,8 +50,8 @@ export class PortfolioReadComponent implements OnInit {
 
   getQuote(userStocks : UserStock[]) : void {
     for(let us of userStocks){
-      this.stockService.getQuote(us.stock.id).subscribe((stock : Stock) => {
-        let aux : UserStock = this.dataSource.data.find(x => x.stock.id == stock.id)
+      this.stockService.getQuote(us.stock.ticker).subscribe((stock : Stock) => {
+        let aux : UserStock = this.dataSource.data.find(x => x.stock.ticker == stock.ticker)
         
         aux.stock.changePercent = stock.changePercent
         aux.stock.lastUpdated = stock.lastUpdated
@@ -65,7 +65,7 @@ export class PortfolioReadComponent implements OnInit {
   }
 
   deleteUserStock(userStock: UserStock) {
-    this.portfolioService.deleteUserStock(userStock.broker.id, userStock.stock.id).subscribe(
+    this.portfolioService.deleteUserStock(userStock.broker.id, userStock.stock.ticker).subscribe(
       () => {
         this.dataSource.data = this.dataSource.data.filter(obj => obj !== userStock)
         this.totalPositionCost -= userStock.positionCost

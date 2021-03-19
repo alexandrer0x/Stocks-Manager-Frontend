@@ -9,7 +9,7 @@ import { Stock } from './stock.model';
 })
 export class StockService {
 
-  private baseUrl : string = environment.baseUrl + 'stocks'
+  private baseUrl : string = environment.apiUrl + 'stocks'
 
   constructor(private http : HttpClient) { }
 

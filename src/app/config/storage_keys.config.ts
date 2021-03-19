@@ -3,3 +3,8 @@ export const STORAGE_KEYS = {
     token: 'token',
     email: 'email'
 }
+
+export const PARAM_KEYS = {
+    user: 'user',
+    stock: 'stock'
+}

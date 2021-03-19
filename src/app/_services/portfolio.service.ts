@@ -8,7 +8,7 @@ import { Injectable } from "@angular/core";
     providedIn: 'root'
 })
 export class PortfolioService {
-    private baseUrl = environment.baseUrl + 'portfolio'
+    private baseUrl = environment.apiUrl + 'portfolio'
 
     constructor(private http : HttpClient) {}
 
