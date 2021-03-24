@@ -1,6 +1,6 @@
 import { Stock } from 'src/app/components/stock/stock.model';
 
-export interface NormalTransaction {
+export interface PositionTrade {
     id?: number
     type: string
     stock: Stock

@@ -1,4 +1,4 @@
-export interface DayTradeTransaction {
+export interface DayTrade {
     id?: number,
     stockSymbol: string,
     date: Date,

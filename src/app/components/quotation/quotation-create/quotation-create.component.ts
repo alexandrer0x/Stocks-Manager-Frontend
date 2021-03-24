@@ -4,7 +4,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Stock } from '../../stock/stock.model';
 
 @Component({
-  selector: 'app-transaction-create',
+  selector: 'app-quotation-create',
   templateUrl: './quotation-create.component.html',
   styleUrls: ['./quotation-create.component.css']
 })

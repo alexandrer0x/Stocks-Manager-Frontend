@@ -22,13 +22,13 @@ import { CompositionComponent } from './views/composition/composition.component'
 import { HomeComponent } from './views/home/home.component';
 import { PortfolioComponent } from './views/portfolio/portfolio.component';
 import { QuotationsComponent } from './views/quotations/quotations.component';
-import { TransactionComponent } from './views/transaction/transaction.component';
+import { TradeComponent } from './views/trade/trade.component';
 
 import { QuotationReadComponent } from './components/quotation/quotation-read/quotation-read.component';
-import { TransactionCreateComponent } from './components/transaction/transaction-create/transaction-create.component';
-import { TransactionReadComponent } from './components/transaction/transaction-read/transaction-read.component';
-import { TransactionUpdateComponent } from './components/transaction/transaction-update/transaction-update.component';
-import { TransactionDeleteComponent } from './components/transaction/transaction-delete/transaction-delete.component';
+import { TradeCreateComponent } from './components/trade/trade-create/trade-create.component';
+import { TradeReadComponent } from './components/trade/trade-read/trade-read.component';
+import { TradeUpdateComponent } from './components/trade/trade-update/trade-update.component';
+import { TradeDeleteComponent } from './components/trade/trade-delete/trade-delete.component';
 import { LogInComponent } from './components/user/log-in/log-in.component';
 import { RegisterComponent } from './components/user/register/register.component';
 import { UserComponent } from './components/user/user.component';
@@ -57,11 +57,11 @@ registerLocaleData(localePt)
     QuotationReadComponent,
     QuotationsComponent,
     RegisterComponent,
-    TransactionComponent,
-    TransactionCreateComponent,
-    TransactionReadComponent,
-    TransactionUpdateComponent,
-    TransactionDeleteComponent,
+    TradeComponent,
+    TradeCreateComponent,
+    TradeReadComponent,
+    TradeUpdateComponent,
+    TradeDeleteComponent,
     UserComponent,
     ToolbarComponent,
     PortfolioReadComponent,

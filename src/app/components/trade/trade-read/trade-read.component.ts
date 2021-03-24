@@ -1,30 +1,30 @@
-import { TransactionUpdateComponent } from './../transaction-update/transaction-update.component';
+import { TradeUpdateComponent } from '../trade-update/trade-update.component';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { DayTradeTransaction } from './../dayTradeTransaction.model';
-import { TransactionService } from './../transaction.service';
-import { NormalTransaction } from './../normalTransaction.model';
+import { DayTrade } from '../dayTrade.model';
+import { TradeService } from '../trade.service';
+import { PositionTrade } from '../positionTrade.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { TransactionDeleteComponent } from '../transaction-delete/transaction-delete.component';
+import { TradeDeleteComponent } from '../trade-delete/trade-delete.component';
 
 @Component({
-  selector: 'app-transaction-read',
-  templateUrl: './transaction-read.component.html',
-  styleUrls: ['./transaction-read.component.css']
+  selector: 'app-trade-read',
+  templateUrl: './trade-read.component.html',
+  styleUrls: ['./trade-read.component.css']
 })
-export class TransactionReadComponent implements OnInit {
-  normalDataSource : MatTableDataSource<NormalTransaction>
-  @ViewChild('normalPaginator', {read: MatPaginator}) normalPaginator: MatPaginator
+export class TradeReadComponent implements OnInit {
+  positionTradeDataSource : MatTableDataSource<PositionTrade>
+  @ViewChild('normalPaginator', {read: MatPaginator}) positionTradePaginator: MatPaginator
 
-  dayTradeDataSource : MatTableDataSource<DayTradeTransaction>
+  dayTradeDataSource : MatTableDataSource<DayTrade>
   @ViewChild('dayTradePaginator', {read: MatPaginator}) dayTradePaginator: MatPaginator
 
 
-  normalColumnsToDisplay = ['date', 'type', 'stock', 'amount', 'price', 'brokerageFee', 'totalValue', 'result', 'action']
+  positionTradeColumnsToDisplay = ['date', 'type', 'stock', 'amount', 'price', 'brokerageFee', 'totalValue', 'result', 'action']
   dayTradeColumnsToDisplay = ['date', 'stock', 'amount', 'buyPrice', 'sellPrice', 'brokerageFee', 'netValue', 'action']
 
-  constructor(private transactionService : TransactionService,
+  constructor(private tradeService : TradeService,
       private editDialog : MatDialog,
       private deleteDialog : MatDialog) {
   }
@@ -35,32 +35,32 @@ export class TransactionReadComponent implements OnInit {
   }
 
   loadNT() : void {
-    this.transactionService.readNT().subscribe((normalTransactions : NormalTransaction[]) => {
-      this.normalDataSource = new MatTableDataSource<NormalTransaction>(normalTransactions)
-      this.normalDataSource.paginator = this.normalPaginator
+    this.tradeService.readNT().subscribe((positionTrades : PositionTrade[]) => {
+      this.positionTradeDataSource = new MatTableDataSource<PositionTrade>(positionTrades)
+      this.positionTradeDataSource.paginator = this.positionTradePaginator
     })
   }
 
   loadDTT() : void {
-    this.transactionService.readDTT().subscribe((dayTradeTransactions : DayTradeTransaction[]) => {
-      this.dayTradeDataSource = new MatTableDataSource<DayTradeTransaction>(dayTradeTransactions)
+    this.tradeService.readDTT().subscribe((dayTrades : DayTrade[]) => {
+      this.dayTradeDataSource = new MatTableDataSource<DayTrade>(dayTrades)
       this.dayTradeDataSource.paginator = this.dayTradePaginator
     })
   }
 
-  totalValue (t : NormalTransaction) : number {
+  totalValue (t : PositionTrade) : number {
     return (t.type == 'C' ? -1 : +1) *(t.amount * t.price + (t.type == 'C' ? t.brokerageFee : -t.brokerageFee))
   }
 
-  netValue (t : DayTradeTransaction) : number {
+  netValue (t : DayTrade) : number {
     return  t.amount * (t.sellPrice - t.buyPrice) - t.brokerageFee
   }
 
 
 
-  openEditDTT(t : DayTradeTransaction) : void{
+  openEditDTT(t : DayTrade) : void{
     const dialogRef = this.editDialog.open(
-      TransactionUpdateComponent, {
+      TradeUpdateComponent, {
         width: '250px',
         data: t
       }
@@ -74,9 +74,9 @@ export class TransactionReadComponent implements OnInit {
     )
   }
 
-  openDeleteDTT(t : DayTradeTransaction) : void{
+  openDeleteDTT(t : DayTrade) : void{
     const dialogRef = this.deleteDialog.open(
-      TransactionDeleteComponent, {
+      TradeDeleteComponent, {
         width: '250px',
         data: t
       }
@@ -92,9 +92,9 @@ export class TransactionReadComponent implements OnInit {
     )
   }
 
-  openDeleteNT(t : NormalTransaction) : void{
+  openDeleteNT(t : PositionTrade) : void{
     const dialogRef = this.deleteDialog.open(
-      TransactionDeleteComponent, {
+      TradeDeleteComponent, {
         width: '250px',
         data: t
       }
@@ -111,18 +111,18 @@ export class TransactionReadComponent implements OnInit {
   }
 
   deleteDTT(result){
-    this.transactionService.deleteDTT(result.id).subscribe(()=>{
+    this.tradeService.deleteDTT(result.id).subscribe(()=>{
       this.loadDTT()
     })
   }
 
   deleteNT(result){
-    this.transactionService.deleteNT(result.id).subscribe(() => {
+    this.tradeService.deleteNT(result.id).subscribe(() => {
       this.loadNT()
     })
   }
 
-  setMyClasses(nt : NormalTransaction): string{
+  setMyClasses(nt : PositionTrade): string{
     if(nt.result < 0)
       return 'negative'
     else if(nt.result == 0)

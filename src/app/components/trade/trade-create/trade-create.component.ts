@@ -1,20 +1,20 @@
-import { StockService } from './../../stock/stock.service';
+import { StockService } from '../../stock/stock.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 
-import { TransactionService } from './../transaction.service';
-import { DayTradeTransaction } from '../dayTradeTransaction.model';
-import { NormalTransaction } from '../normalTransaction.model';
+import { TradeService } from '../trade.service';
+import { DayTrade } from '../dayTrade.model';
+import { PositionTrade } from '../positionTrade.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-transaction-create',
-  templateUrl: './transaction-create.component.html',
-  styleUrls: ['./transaction-create.component.css']
+  selector: 'app-trade-create',
+  templateUrl: './trade-create.component.html',
+  styleUrls: ['./trade-create.component.css']
 })
-export class TransactionCreateComponent implements OnInit {
+export class TradeCreateComponent implements OnInit {
   
   type = {
     id: null,
@@ -35,7 +35,7 @@ export class TransactionCreateComponent implements OnInit {
   stocks = [ ]
 
 
-  dayTradeTransaction : DayTradeTransaction = {
+  dayTrade : DayTrade = {
     stockSymbol: null,
     date: null,
     amount: null,
@@ -44,7 +44,7 @@ export class TransactionCreateComponent implements OnInit {
     brokerageFee: null
   }
 
-  normalTransaction : NormalTransaction = {
+  positionTrade : PositionTrade = {
     type: null,
     stock: null,
     date: null,
@@ -53,7 +53,7 @@ export class TransactionCreateComponent implements OnInit {
     brokerageFee: null
   }
 
-  constructor(private transactionService: TransactionService,
+  constructor(private tradeService: TradeService,
       private stockService: StockService,
       private router: Router, private snackBar: MatSnackBar,
       private toastr : ToastrService) { }
@@ -64,23 +64,23 @@ export class TransactionCreateComponent implements OnInit {
     })
   }
 
-  createTransaction() : void {
+  createTrade() : void {
     if(this.type.id == 'D'){
-      this.transactionService.createDTT(this.dayTradeTransaction).subscribe(()=>{
+      this.tradeService.createDTT(this.dayTrade).subscribe(()=>{
         this.toastr.success('Transação criada!')
-        this.router.navigate(['/transaction'])
+        this.router.navigate(['/trade'])
       })
     }
     else if (this.type.id == 'C' || this.type.id == 'V'){
-      this.normalTransaction.type = this.type.id
-      this.transactionService.createNT(this.normalTransaction).subscribe(()=>{
+      this.positionTrade.type = this.type.id
+      this.tradeService.createNT(this.positionTrade).subscribe(()=>{
         this.toastr.success('Transação criada!')
-        this.router.navigate(['/transaction'])
+        this.router.navigate(['/trade'])
       })
     }
   }
 
   cancel() : void {
-    this.router.navigate(['/transaction'])
+    this.router.navigate(['/trade'])
   }
 }
