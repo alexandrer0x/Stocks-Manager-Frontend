@@ -2,9 +2,10 @@ import { environment } from '../../../environments/environment';
 import { DayTrade } from './dayTrade.model';
 import { PositionTrade } from './positionTrade.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Position } from '@angular/compiler';
+import { User } from '../user/user.model';
 
 
 @Injectable({
@@ -12,55 +13,57 @@ import { Position } from '@angular/compiler';
 })
 export class TradeService {
 
-  private positionTradeBaseUrl : string = environment.apiUrl + 'position-trade'
-  private dayTradeBaseUrl: string = environment.apiUrl + 'day-trade'
+  private positionTradeBaseUrl : string = environment.apiUrl + 'position-trades'
+  private dayTradeBaseUrl: string = environment.apiUrl + 'day-trades'
 
   constructor(private http: HttpClient) { }
 
-  createNT(positionTrade : PositionTrade) : Observable<PositionTrade> {
+  createPT(positionTrade : PositionTrade) : Observable<PositionTrade> {
     return this.http.post<PositionTrade>(this.positionTradeBaseUrl, positionTrade)
   }
 
-  createDTT(dayTrade : DayTrade) : Observable<DayTrade> {
+  createDT(dayTrade : DayTrade) : Observable<DayTrade> {
     return this.http.post<DayTrade>(this.dayTradeBaseUrl, dayTrade)
   }
 
-  readNT() : Observable<PositionTrade[]> {
-    return this.http.get<PositionTrade[]>(this.positionTradeBaseUrl)
+  readPT(user: User, linesPerPage : number) : Observable<any> {
+    let params : HttpParams = new HttpParams().set('user', user.email)
+
+    return this.http.get<PositionTrade[]>(`${this.positionTradeBaseUrl}/user/page`, {params})
   }
 
-  readDTT() : Observable<DayTrade[]> {
+  readDT() : Observable<DayTrade[]> {
     return this.http.get<DayTrade[]>(this.dayTradeBaseUrl)
   }
 
-  readNTById(id : number) : Observable<PositionTrade> {
+  readPTById(id : number) : Observable<PositionTrade> {
     const url = `${this.positionTradeBaseUrl}/${id}`
     return this.http.get<PositionTrade>(url)
 
   }
 
-  readDTTById(id : number) : Observable<DayTrade> {
+  readDTById(id : number) : Observable<DayTrade> {
     const url = `${this.dayTradeBaseUrl}/${id}`
     return this.http.get<DayTrade>(url)
 
   }
 
-  updateNT(positionTrade : PositionTrade)  : Observable<PositionTrade> {
+  updatePT(positionTrade : PositionTrade)  : Observable<PositionTrade> {
     const url = `${this.positionTradeBaseUrl}/${positionTrade.id}`
     return this.http.put<PositionTrade>(url, positionTrade)
   }
 
-  updateDTT(dayTrade : DayTrade)  : Observable<DayTrade> {
+  updateDT(dayTrade : DayTrade)  : Observable<DayTrade> {
     const url = `${this.dayTradeBaseUrl}/${dayTrade.id}`
     return this.http.put<DayTrade>(url, dayTrade)
   }
 
-  deleteNT(id : number)  : Observable<PositionTrade> {
+  deletePT(id : number)  : Observable<PositionTrade> {
     const url = `${this.positionTradeBaseUrl}/${id}`
     return this.http.delete<PositionTrade>(url)
   }
 
-  deleteDTT(id : number)  : Observable<DayTrade> {
+  deleteDT(id : number)  : Observable<DayTrade> {
     const url = `${this.dayTradeBaseUrl}/${id}`
     return this.http.delete<DayTrade>(url)
   }

@@ -7,7 +7,7 @@ export interface PositionTrade {
     date: Date
     amount: number
     price: number
-    brokerageFee: number
+    tradeFee: number
     userId?: number
     result?: number
 }

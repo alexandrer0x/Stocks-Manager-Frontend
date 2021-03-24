@@ -66,14 +66,14 @@ export class TradeCreateComponent implements OnInit {
 
   createTrade() : void {
     if(this.type.id == 'D'){
-      this.tradeService.createDTT(this.dayTrade).subscribe(()=>{
+      this.tradeService.createDT(this.dayTrade).subscribe(()=>{
         this.toastr.success('Transação criada!')
         this.router.navigate(['/trade'])
       })
     }
     else if (this.type.id == 'C' || this.type.id == 'V'){
       this.positionTrade.type = this.type.id
-      this.tradeService.createNT(this.positionTrade).subscribe(()=>{
+      this.tradeService.createPT(this.positionTrade).subscribe(()=>{
         this.toastr.success('Transação criada!')
         this.router.navigate(['/trade'])
       })

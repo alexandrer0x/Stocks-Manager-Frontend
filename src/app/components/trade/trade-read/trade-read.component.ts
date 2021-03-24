@@ -7,6 +7,8 @@ import { PositionTrade } from '../positionTrade.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { TradeDeleteComponent } from '../trade-delete/trade-delete.component';
+import { AuthService } from 'src/app/auth/auth.service';
+import { User } from '../../user/user.model';
 
 @Component({
   selector: 'app-trade-read',
@@ -15,7 +17,7 @@ import { TradeDeleteComponent } from '../trade-delete/trade-delete.component';
 })
 export class TradeReadComponent implements OnInit {
   positionTradeDataSource : MatTableDataSource<PositionTrade>
-  @ViewChild('normalPaginator', {read: MatPaginator}) positionTradePaginator: MatPaginator
+  @ViewChild('positionTradePaginator', {read: MatPaginator}) positionTradePaginator: MatPaginator
 
   dayTradeDataSource : MatTableDataSource<DayTrade>
   @ViewChild('dayTradePaginator', {read: MatPaginator}) dayTradePaginator: MatPaginator
@@ -25,31 +27,36 @@ export class TradeReadComponent implements OnInit {
   dayTradeColumnsToDisplay = ['date', 'stock', 'amount', 'buyPrice', 'sellPrice', 'brokerageFee', 'netValue', 'action']
 
   constructor(private tradeService : TradeService,
+      private authService : AuthService,
       private editDialog : MatDialog,
       private deleteDialog : MatDialog) {
   }
 
   ngOnInit(): void {
-    this.loadNT()
-    this.loadDTT()
+    this.loadPT()
+    this.loadDT()
   }
 
-  loadNT() : void {
-    this.tradeService.readNT().subscribe((positionTrades : PositionTrade[]) => {
+  loadPT() : void {
+    let user : User = this.authService.getUser()
+    let linesPerPage : 10
+
+    this.tradeService.readPT(user, linesPerPage).subscribe((response) => {
+      let positionTrades : PositionTrade[] = response.content
       this.positionTradeDataSource = new MatTableDataSource<PositionTrade>(positionTrades)
       this.positionTradeDataSource.paginator = this.positionTradePaginator
     })
   }
 
-  loadDTT() : void {
-    this.tradeService.readDTT().subscribe((dayTrades : DayTrade[]) => {
+  loadDT() : void {
+    this.tradeService.readDT().subscribe((dayTrades : DayTrade[]) => {
       this.dayTradeDataSource = new MatTableDataSource<DayTrade>(dayTrades)
       this.dayTradeDataSource.paginator = this.dayTradePaginator
     })
   }
 
   totalValue (t : PositionTrade) : number {
-    return (t.type == 'C' ? -1 : +1) *(t.amount * t.price + (t.type == 'C' ? t.brokerageFee : -t.brokerageFee))
+    return (t.type == 'C' ? -1 : +1) *(t.amount * t.price + (t.type == 'C' ? t.tradeFee : -t.tradeFee))
   }
 
   netValue (t : DayTrade) : number {
@@ -58,7 +65,7 @@ export class TradeReadComponent implements OnInit {
 
 
 
-  openEditDTT(t : DayTrade) : void{
+  openEditDT(t : DayTrade) : void{
     const dialogRef = this.editDialog.open(
       TradeUpdateComponent, {
         width: '250px',
@@ -74,7 +81,7 @@ export class TradeReadComponent implements OnInit {
     )
   }
 
-  openDeleteDTT(t : DayTrade) : void{
+  openDeleteDT(t : DayTrade) : void{
     const dialogRef = this.deleteDialog.open(
       TradeDeleteComponent, {
         width: '250px',
@@ -85,14 +92,14 @@ export class TradeReadComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       result => {
         console.log(result.id)
-        this.deleteDTT(result)
+        this.deleteDT(result)
         console.log(result)
         console.log('dialog fechada')
       }
     )
   }
 
-  openDeleteNT(t : PositionTrade) : void{
+  openDeletePT(t : PositionTrade) : void{
     const dialogRef = this.deleteDialog.open(
       TradeDeleteComponent, {
         width: '250px',
@@ -103,22 +110,22 @@ export class TradeReadComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       result => {
         console.log(result.id)
-        this.deleteNT(result)
+        this.deletePT(result)
         console.log(result)
         console.log('dialog fechada')
       }
     )
   }
 
-  deleteDTT(result){
-    this.tradeService.deleteDTT(result.id).subscribe(()=>{
-      this.loadDTT()
+  deleteDT(result){
+    this.tradeService.deleteDT(result.id).subscribe(()=>{
+      this.loadDT()
     })
   }
 
-  deleteNT(result){
-    this.tradeService.deleteNT(result.id).subscribe(() => {
-      this.loadNT()
+  deletePT(result){
+    this.tradeService.deletePT(result.id).subscribe(() => {
+      this.loadPT()
     })
   }
 

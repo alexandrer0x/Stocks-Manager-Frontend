@@ -11,7 +11,7 @@
         </ng-container>
         <ng-container matColumnDef="stock">
             <mat-header-cell *matHeaderCellDef>Papel</mat-header-cell>
-            <mat-cell *matCellDef="let t"> {{t.stock.id}} </mat-cell>
+            <mat-cell *matCellDef="let t"> {{t.stock.ticker}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="amount">
             <mat-header-cell *matHeaderCellDef>Qtd</mat-header-cell>
@@ -23,7 +23,7 @@
         </ng-container>
         <ng-container matColumnDef="brokerageFee">
             <mat-header-cell *matHeaderCellDef>Corretagem</mat-header-cell>
-            <mat-cell *matCellDef="let t"> {{t.brokerageFee | currency : 'BRL'}} </mat-cell>
+            <mat-cell *matCellDef="let t"> {{t.tradeFee | currency : 'BRL'}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="totalValue">
             <mat-header-cell *matHeaderCellDef>Valor total</mat-header-cell>
@@ -31,7 +31,7 @@
         </ng-container>
         <ng-container matColumnDef="result">
             <mat-header-cell *matHeaderCellDef>Resultado</mat-header-cell>
-            <mat-cell *matCellDef="let t" [ngClass]="setMyClasses(t)"> {{t.result | number: '1.2-2'}} </mat-cell>
+            <mat-cell *matCellDef="let t" [ngClass]="setMyClasses(t)"> {{t.tradeResult | number: '1.2-2'}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -41,7 +41,7 @@
                         edit
                     </i>
                 </button>
-                <button mat-icon-button (click)="openDeleteNT(t)" color="warn" matTooltipShowDelay=500 matTooltip="Excluir">
+                <button mat-icon-button (click)="openDeletePT(t)" color="warn" matTooltipShowDelay=500 matTooltip="Excluir">
                     <i class="material-icons">
                         delete
                     </i>
@@ -52,7 +52,7 @@
         <mat-header-row *matHeaderRowDef="positionTradeColumnsToDisplay"></mat-header-row>
         <mat-row *matRowDef="let row; let even = even; columns: positionTradeColumnsToDisplay" [ngClass]="{gray : even}"></mat-row>
     </mat-table>
-    <mat-paginator #positionTradePaginator [pageSizeOptions]="[5, 10, 20, 50]"  [pageSize]="20" showFirstLastButtons></mat-paginator>
+    <mat-paginator #positionTradePaginator [pageSizeOptions]="[5, 10, 20, 50]"  [pageSize]="5" showFirstLastButtons></mat-paginator>
 </mat-card>
 
 <mat-card class="mat-elevation-z4">
@@ -93,12 +93,12 @@
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let t">
-                <button (click)="openEditDTT(t)" class="edit">
+                <button (click)="openEditDT(t)" class="edit">
                     <i class="material-icons">
                         edit
                     </i>
                 </button>
-                <button (click)="openDeleteDTT(t)" class="delete">
+                <button (click)="openDeleteDT(t)" class="delete">
                     <i class="material-icons">
                         delete
                     </i>
