@@ -6,7 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { LoginCreds } from '../components/user/loginCreds.model';
-import { PARAM_KEYS, STORAGE_KEYS } from '../config/storage_keys.config';
+import { PARAM_KEYS, STORAGE_KEYS } from '../config/string_keys.config';
 import { StorageService } from '../_services/storage.service';
 
 @Injectable({

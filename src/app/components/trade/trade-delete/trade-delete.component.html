@@ -12,17 +12,17 @@
     <input matInput placeholder="Quantidade" type="text" disabled
         value="{{nt.amount}}">
   </mat-form-field>
-  <mat-form-field *ngIf="nt.type == 'C'">
+  <mat-form-field *ngIf="nt.type == TRADE_TYPE_KEYS.compra">
     <input matInput placeholder="Preço de compra"  type="text" disabled
         value="{{nt.price | currency: 'BRL'}}">
   </mat-form-field>
-  <mat-form-field *ngIf="nt.type == 'V'">
+  <mat-form-field *ngIf="nt.type == TRADE_TYPE_KEYS.venda">
     <input matInput placeholder="Preço de venda"  type="text" disabled
         value="{{nt.price | currency: 'BRL'}}">
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Corretagem" type="text" disabled
-        value="{{nt.brokerageFee | currency: 'BRL'}}">
+        value="{{nt.tradeFee | currency: 'BRL'}}">
   </mat-form-field>
 </mat-dialog-content>
 <div mat-dialog-actions>

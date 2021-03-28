@@ -5,6 +5,6 @@ export interface DayTrade {
     amount: number,
     buyPrice: number,
     sellPrice: number,
-    brokerageFee: number,
+    tradeFee: number,
     userId?: number
 }

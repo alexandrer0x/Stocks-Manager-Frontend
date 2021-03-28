@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://sm.alexandrevieira.site/api/',
+  apiUrl: 'https://sm.alexandrevieira.dev/api/',
   applicationTitle: 'Stocks Manager'
 };

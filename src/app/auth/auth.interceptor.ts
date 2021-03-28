@@ -5,7 +5,7 @@ import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/internal/operators/tap';
-import { STORAGE_KEYS } from '../config/storage_keys.config';
+import { STORAGE_KEYS } from '../config/string_keys.config';
 
 @Injectable({
     providedIn: 'root'

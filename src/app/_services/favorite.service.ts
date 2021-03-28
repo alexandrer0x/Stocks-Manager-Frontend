@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
 import { StorageService } from 'src/app/_services/storage.service';
-import { PARAM_KEYS, STORAGE_KEYS } from 'src/app/config/storage_keys.config';
+import { PARAM_KEYS, STORAGE_KEYS } from 'src/app/config/string_keys.config';
 import { User } from '../components/user/user.model';
 import { AuthService } from 'src/app/auth/auth.service';
 

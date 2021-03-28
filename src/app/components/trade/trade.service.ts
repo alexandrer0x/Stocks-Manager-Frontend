@@ -19,6 +19,7 @@ export class TradeService {
   constructor(private http: HttpClient) { }
 
   createPT(positionTrade : PositionTrade) : Observable<PositionTrade> {
+
     return this.http.post<PositionTrade>(this.positionTradeBaseUrl, positionTrade)
   }
 
@@ -26,10 +27,10 @@ export class TradeService {
     return this.http.post<DayTrade>(this.dayTradeBaseUrl, dayTrade)
   }
 
-  readPT(user: User, linesPerPage : number) : Observable<any> {
+  readPT(user: User) : Observable<any> {
     let params : HttpParams = new HttpParams().set('user', user.email)
 
-    return this.http.get<PositionTrade[]>(`${this.positionTradeBaseUrl}/user/page`, {params})
+    return this.http.get<PositionTrade[]>(`${this.positionTradeBaseUrl}/user`, {params})
   }
 
   readDT() : Observable<DayTrade[]> {

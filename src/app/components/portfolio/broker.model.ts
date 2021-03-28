@@ -1,4 +1,4 @@
 export interface Broker {
-    id: number,
+    id?: number,
     name: string
   }

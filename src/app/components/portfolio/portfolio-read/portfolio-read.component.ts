@@ -19,7 +19,7 @@ export class PortfolioReadComponent implements OnInit {
 
   @Input() broker : Broker
 
-  columnsToDisplay = ['stockId', 'position', 'avgPrice', 'price', 'positionCost', 'positonValue', 'gainToMake', 'gainPercent', 'buttons']
+  columnsToDisplay = ['stockId', 'position', 'avgPrice', 'price', 'positionCost', 'positonValue', 'gainToMake', 'gainPercent']
 
   totalPositionCost = 0
   totalPositionValue = 0

@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-import { PARAM_KEYS } from '../config/storage_keys.config';
+import { PARAM_KEYS } from '../config/string_keys.config';
 import { User } from '../components/user/user.model';
 import { Broker } from '../components/portfolio/broker.model';
 

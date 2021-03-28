@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TradeDeleteComponent } from '../trade-delete/trade-delete.component';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../../user/user.model';
+import { TRADE_TYPE_KEYS } from '../../../config/string_keys.config'
 
 @Component({
   selector: 'app-trade-read',
@@ -23,8 +24,8 @@ export class TradeReadComponent implements OnInit {
   @ViewChild('dayTradePaginator', {read: MatPaginator}) dayTradePaginator: MatPaginator
 
 
-  positionTradeColumnsToDisplay = ['date', 'type', 'stock', 'amount', 'price', 'brokerageFee', 'totalValue', 'result', 'action']
-  dayTradeColumnsToDisplay = ['date', 'stock', 'amount', 'buyPrice', 'sellPrice', 'brokerageFee', 'netValue', 'action']
+  positionTradeColumnsToDisplay = ['date', 'type', 'stock', 'amount', 'price', 'tradeFee', 'totalValue', 'result', 'action']
+  dayTradeColumnsToDisplay = ['date', 'stock', 'amount', 'buyPrice', 'sellPrice', 'tradeFee', 'netValue', 'action']
 
   constructor(private tradeService : TradeService,
       private authService : AuthService,
@@ -34,15 +35,13 @@ export class TradeReadComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPT()
-    this.loadDT()
+    //this.loadDT()
   }
 
   loadPT() : void {
     let user : User = this.authService.getUser()
-    let linesPerPage : 10
-
-    this.tradeService.readPT(user, linesPerPage).subscribe((response) => {
-      let positionTrades : PositionTrade[] = response.content
+    
+    this.tradeService.readPT(user).subscribe((positionTrades : PositionTrade[]) => {
       this.positionTradeDataSource = new MatTableDataSource<PositionTrade>(positionTrades)
       this.positionTradeDataSource.paginator = this.positionTradePaginator
     })
@@ -56,11 +55,11 @@ export class TradeReadComponent implements OnInit {
   }
 
   totalValue (t : PositionTrade) : number {
-    return (t.type == 'C' ? -1 : +1) *(t.amount * t.price + (t.type == 'C' ? t.tradeFee : -t.tradeFee))
+    return (t.type == TRADE_TYPE_KEYS.compra ? -1 : +1) * (t.amount * t.price + (t.type == TRADE_TYPE_KEYS.compra ? t.tradeFee : -t.tradeFee))
   }
 
   netValue (t : DayTrade) : number {
-    return  t.amount * (t.sellPrice - t.buyPrice) - t.brokerageFee
+    return  t.amount * (t.sellPrice - t.buyPrice) - t.tradeFee
   }
 
 

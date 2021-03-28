@@ -39,10 +39,10 @@
             </mat-form-field>
             <mat-form-field>
                 <input matInput placeholder="Corretagem" type="number" 
-                    [(ngModel)]="dayTrade.brokerageFee" name="daTradeBrokerageFee">
+                    [(ngModel)]="dayTrade.tradeFee" name="daTradeTradeFee">
             </mat-form-field>
         </form>
-        <form id="positionTradeForm" *ngIf="type.id == 'C' || type.id == 'V'">
+        <form id="positionTradeForm" *ngIf="type.id == TRADE_TYPE_KEYS.compra || type.id == TRADE_TYPE_KEYS.venda">
             <mat-form-field>
                 <mat-label>Data</mat-label>
                 <input matInput #positionTradeInput readonly [matDatepicker]="positionTradeDatepicker" name="positionTradeDate" (focus)="positionTradeDatepicker.open()"
@@ -59,6 +59,14 @@
                 </mat-select>
             </mat-form-field>
             <mat-form-field>
+                <mat-label>Corretora</mat-label>
+                <mat-select [(ngModel)]= "positionTrade.broker" name="positionTradeBroker"> 
+                    <mat-option *ngFor="let b of brokers" [value]="b">
+                        {{b.id}} - {{b.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
                 <input matInput placeholder="Quantidade" type="number"
                     [(ngModel)]="positionTrade.amount" name="positionTradeAmount">
             </mat-form-field>
@@ -68,7 +76,7 @@
             </mat-form-field>
             <mat-form-field>
                 <input matInput placeholder="Corretagem" type="number" 
-                    [(ngModel)]="positionTrade.brokerageFee" name="positionTradeBrokerageFee">
+                    [(ngModel)]="positionTrade.tradeFee" name="positionTradeTradeFee">
             </mat-form-field>
         </form>
         
