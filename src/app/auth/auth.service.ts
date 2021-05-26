@@ -14,6 +14,7 @@ import { StorageService } from '../_services/storage.service';
 })
 export class AuthService {
     private baseUrl : string = environment.apiUrl + 'users'
+    private loginUrl: string = environment.baseUrl + 'login'
     jwtHelper = new JwtHelperService()
     decoededToken : any
 
@@ -22,7 +23,7 @@ export class AuthService {
     
 
     logIn(loginCreds : LoginCreds) : Observable<LoginCreds> {
-        return this.http.post<LoginCreds>(`http://localhost:8080/login`, loginCreds, {observe: 'response'}).pipe(
+        return this.http.post<LoginCreds>(`${this.loginUrl}`, loginCreds, {observe: 'response'}).pipe(
             mergeMap((response1) : Observable<LoginCreds> => {
                 let header = response1.headers.get('authorization')
                 let email : string
